@@ -1,0 +1,64 @@
+{% extends 'finalapp/base.html' %}
+ 
+{% block content %}
+
+<h5>Welcome {{user}} !</h5>
+
+<hr>
+
+<a class="btn btn-primary btn-sm" href="{% url 'create-movies' %}">
+
+    Add movies
+</a>
+
+<hr>
+
+
+<hr>
+
+<style>
+    .custom-card {
+        margin: 10px;
+        padding: 10px;
+    }
+
+
+
+</style>
+
+<div class="container">
+    <div class="row">
+        {% for i in movie %}
+        <div class="col-md-4">
+            <div class="card custom-card" style="height: 500px; width: 300px;">
+                <img class="card-img-top" src="{{i.poster.url}}" alt="Card image cap" height="300px" width="200px">
+                <div class="card-body">
+                    <h5 class="card-title">{{i.movie_title|truncatewords:3}}</h5>
+                    <p class="card-text">{{i.description|truncatewords:4 }}</p>
+                    <a href="{% url 'details' i.id %}" class="btn btn-primary">GO</a>
+
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

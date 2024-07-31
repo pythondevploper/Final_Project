@@ -1,0 +1,32 @@
+{% extends 'finalapp/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <body>
+        <div class="container bg-light p-5 form-layout">
+
+            <h3> Add Movies</h3>
+        
+            <hr>
+            <br>
+
+            <form method="POST" autocomplete="off">
+            
+                {% csrf_token %}
+
+                {{form|crispy}}
+                <br>
+
+                <button type="submit" class="btn btn-success w-100 p-2">Add movies here</button>
+
+            </form>
+
+        </div>
+    </body>
+
+
+
+
+{% endblock %}

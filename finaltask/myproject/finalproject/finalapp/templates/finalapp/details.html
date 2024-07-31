@@ -1,0 +1,59 @@
+{% extends 'finalapp/base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto text-center">
+            <img src="{{data.poster.url}}" class="image-fluid" width="500" height="500" style="margin:20px; padding:20px;"><br>
+        </div>
+        <div class="mx-auto text-center" style="margin:20px; padding:20px;">
+            <h4>{{ data.movie_title}}</h4>
+            <h6>{{ data.description}}</h6>
+            <h6>{{ data.release_date }}</h6>
+            <h6>{{ data.cast}}</h6>
+            <h6>{{ data.category }}</h6>
+            <h6>
+                <a href="{{data.youtube_trailer_link }}" target="_blank">Watch Trailer</a>
+            </h6>
+            {% if request.user.is_authenticated and data.user == request.user %}
+               <a class="btn btn-dark" href="{% url 'update' data.id %}">Update</a>
+               <a class="btn btn-danger" href="{% url 'delete' data.id %}">Delete</a>
+            {% endif %}
+            
+            <h2>Reviews</h2>
+            <ul>
+                {% for review in reviews %}
+                    <li>
+                        <strong>{{ review.user.username }}</strong>: {{ review.rating }}/5
+                        <p>{{ review.comment }}</p>
+                        <p><em>{{ review.created_at }}</em></p>
+                    </li>
+                {% endfor %}
+            </ul>
+           {% if user.is_authenticated %}
+               <h2>Leave a Review</h2>
+           
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Submit</button>
+                </form>
+                {% if form.errors %}
+                  <div class="form-errors">
+                        <h3>Form Errors:</h3>
+                        <ul>
+                            {% for field, errors in form.errors.items %}
+                                <li>{{ field }}: {{ errors|join:", " }}</li>
+                            {% endfor %}
+                        </ul>
+                   </div>
+                {% endif %}
+
+           {% else %}
+            <p>You need to <a href="{% url 'my-login' %}">login</a> to leave a review.</p>
+           {% endif %}
+           
+        </div>
+    </div>
+</div>
+{% endblock %}
